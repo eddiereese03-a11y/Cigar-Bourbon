@@ -1,0 +1,863 @@
+// FILE STRUCTURE FOR VERCEL:
+// 
+// bourbon-cigar-guide/
+// ├── index.html
+// ├── styles.css
+// ├── script.js
+// ├── vercel.json
+// └── package.json
+
+// ============================================
+// FILE 1: index.html
+// ============================================
+/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bourbon & Cigar Pairing Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">🥃 Bourbon & Cigar Guide</h1>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#bourbons">Bourbons</a></li>
+                <li><a href="#cigars">Cigars</a></li>
+                <li><a href="#pairing">Pairing Tool</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h2>The Art of Bourbon & Cigar Pairing</h2>
+            <p>Discover the perfect harmony between premium bourbons and fine cigars</p>
+            <a href="#pairing" class="cta-button">Find Your Perfect Pair</a>
+        </div>
+    </section>
+
+    <section id="bourbons" class="section">
+        <div class="container">
+            <h2 class="section-title">Premium Bourbons</h2>
+            <p class="section-subtitle">Explore our curated selection of exceptional bourbons</p>
+            <div id="bourbon-grid" class="grid"></div>
+        </div>
+    </section>
+
+    <section id="cigars" class="section alt-section">
+        <div class="container">
+            <h2 class="section-title">Fine Cigars</h2>
+            <p class="section-subtitle">Discover cigars that complement your bourbon perfectly</p>
+            <div id="cigar-grid" class="grid"></div>
+        </div>
+    </section>
+
+    <section id="pairing" class="section">
+        <div class="container">
+            <h2 class="section-title">Pairing Tool</h2>
+            <p class="section-subtitle">Find your perfect bourbon and cigar combination</p>
+            
+            <div class="pairing-tool">
+                <div class="mode-selector">
+                    <button id="bourbon-mode" class="mode-btn active">I Have Bourbon</button>
+                    <button id="cigar-mode" class="mode-btn">I Have a Cigar</button>
+                </div>
+
+                <div class="selection-area">
+                    <label id="selection-label">Select your bourbon:</label>
+                    <select id="item-select" class="select-dropdown">
+                        <option value="">-- Choose --</option>
+                    </select>
+                    <button id="find-pairing" class="cta-button">Find Perfect Pairing</button>
+                </div>
+
+                <div id="pairing-result" class="pairing-result"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Bourbon & Cigar Guide. Enjoy responsibly.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+*/
+
+// ============================================
+// FILE 2: styles.css
+// ============================================
+/*
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    color: #fef3c7;
+    background: linear-gradient(135deg, #78350f 0%, #92400e 50%, #1c1917 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.navbar {
+    background: rgba(28, 25, 23, 0.95);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: #d97706;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #fde68a;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #d97706;
+}
+
+.hero {
+    text-align: center;
+    padding: 6rem 0;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+}
+
+.hero h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #fef3c7;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #fde68a;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #d97706;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.cta-button:hover {
+    background: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+}
+
+.section {
+    padding: 4rem 0;
+}
+
+.alt-section {
+    background: rgba(41, 37, 36, 0.3);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #fef3c7;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    color: #fde68a;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: rgba(41, 37, 36, 0.9);
+    border-radius: 12px;
+    padding: 2rem;
+    border-left: 4px solid #d97706;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.3);
+}
+
+.card h3 {
+    color: #d97706;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .profile {
+    color: #fde68a;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.card .notes {
+    color: #fcd34d;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .detail {
+    color: #fbbf24;
+    font-size: 0.85rem;
+}
+
+.card .description {
+    color: #fef3c7;
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.pairing-tool {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(41, 37, 36, 0.9);
+    padding: 3rem;
+    border-radius: 12px;
+}
+
+.mode-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 1rem;
+    background: #44403c;
+    color: #fde68a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.mode-btn.active {
+    background: #d97706;
+    color: white;
+}
+
+.selection-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.selection-area label {
+    color: #fde68a;
+    font-weight: bold;
+}
+
+.select-dropdown {
+    padding: 1rem;
+    background: #44403c;
+    color: #fef3c7;
+    border: 2px solid #57534e;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.select-dropdown:focus {
+    outline: none;
+    border-color: #d97706;
+}
+
+.pairing-result {
+    margin-top: 2rem;
+}
+
+.pairing-display {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.pairing-item {
+    background: #44403c;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.pairing-item h4 {
+    color: #d97706;
+    margin-bottom: 0.5rem;
+}
+
+.pairing-item .name {
+    font-size: 1.25rem;
+    color: #fef3c7;
+    margin-bottom: 0.5rem;
+}
+
+.pairing-arrow {
+    font-size: 2rem;
+    color: #d97706;
+}
+
+.reasoning {
+    background: #44403c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #d97706;
+    margin-top: 1rem;
+}
+
+.reasoning h4 {
+    color: #fde68a;
+    margin-bottom: 0.5rem;
+}
+
+.other-options {
+    margin-top: 2rem;
+}
+
+.other-options h4 {
+    color: #fde68a;
+    margin-bottom: 1rem;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.option-card {
+    background: #44403c;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.option-card .name {
+    color: #fef3c7;
+    font-weight: bold;
+}
+
+.option-card .profile {
+    color: #fde68a;
+    font-size: 0.85rem;
+}
+
+.footer {
+    background: rgba(28, 25, 23, 0.95);
+    padding: 2rem 0;
+    text-align: center;
+    color: #fde68a;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #292524;
+    padding: 3rem;
+    border-radius: 12px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    border: 2px solid #d97706;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #fde68a;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pairing-display {
+        grid-template-columns: 1fr;
+    }
+    
+    .pairing-arrow {
+        transform: rotate(90deg);
+    }
+}
+*/
+
+// ============================================
+// FILE 3: script.js
+// ============================================
+
+const bourbons = [
+    {
+        name: "Buffalo Trace",
+        profile: "Light & Sweet",
+        notes: "Vanilla, caramel, honey",
+        proof: 90,
+        bestWith: ["Connecticut Shade", "Dominican Mild"],
+        description: "A classic Kentucky bourbon with a smooth, approachable character. Buffalo Trace offers notes of vanilla and caramel with hints of toffee and candied fruit. Its gentle sweetness makes it an excellent choice for those new to bourbon."
+    },
+    {
+        name: "Maker's Mark",
+        profile: "Smooth & Wheated",
+        notes: "Butterscotch, wheat, vanilla",
+        proof: 90,
+        bestWith: ["Connecticut Shade", "Ecuadorian Connecticut"],
+        description: "Known for its distinctive red wax seal, Maker's Mark uses wheat instead of rye in its mash bill, creating a softer, smoother bourbon with buttery sweetness and subtle spice notes."
+    },
+    {
+        name: "Woodford Reserve",
+        profile: "Rich & Balanced",
+        notes: "Tobacco, cocoa, spice",
+        proof: 90.4,
+        bestWith: ["Habano Wrapper", "Nicaraguan Medium"],
+        description: "A premium small-batch bourbon with a complex flavor profile. Rich notes of dried fruit, tobacco, and cocoa create a sophisticated drinking experience that pairs beautifully with medium-bodied cigars."
+    },
+    {
+        name: "Knob Creek",
+        profile: "Bold & Robust",
+        notes: "Oak, caramel, char",
+        proof: 100,
+        bestWith: ["Maduro", "Nicaraguan Full"],
+        description: "Aged for 9 years and bottled at 100 proof, Knob Creek delivers intense oak and caramel flavors with a distinctive char. Its bold character stands up perfectly to full-bodied cigars."
+    },
+    {
+        name: "Elijah Craig Small Batch",
+        profile: "Complex & Rich",
+        notes: "Dark fruit, leather, oak",
+        proof: 94,
+        bestWith: ["Maduro", "Habano Oscuro"],
+        description: "A well-aged bourbon that showcases deep flavors of dark fruit, leather, and toasted oak. The complexity and richness make it ideal for contemplative sipping alongside robust cigars."
+    },
+    {
+        name: "Wild Turkey 101",
+        profile: "Spicy & Full-bodied",
+        notes: "Rye spice, caramel, oak",
+        proof: 101,
+        bestWith: ["Nicaraguan Full", "Ligero-heavy blend"],
+        description: "A high-rye bourbon with pronounced spice and bold character. Wild Turkey 101's intensity and peppery notes create an exciting pairing with the strongest, most flavorful cigars."
+    }
+];
+
+const cigars = [
+    {
+        name: "Connecticut Shade",
+        profile: "Mild & Creamy",
+        notes: "Cream, nuts, cedar",
+        strength: "Mild",
+        bestWith: ["Buffalo Trace", "Maker's Mark"],
+        description: "Grown under shade cloths in Connecticut, these wrappers produce exceptionally smooth, creamy cigars with delicate flavors of nuts and cedar. Perfect for morning or afternoon enjoyment."
+    },
+    {
+        name: "Dominican Mild",
+        profile: "Smooth & Mellow",
+        notes: "Toast, butter, hay",
+        strength: "Mild",
+        bestWith: ["Buffalo Trace", "Maker's Mark"],
+        description: "Dominican Republic cigars are known for their smooth, mellow character. These mild blends offer pleasant notes of toast and butter with a subtle sweetness that won't overwhelm the palate."
+    },
+    {
+        name: "Ecuadorian Connecticut",
+        profile: "Silky & Refined",
+        notes: "Almond, white pepper, grass",
+        strength: "Mild-Medium",
+        bestWith: ["Maker's Mark", "Woodford Reserve"],
+        description: "Ecuador's unique climate produces Connecticut-seed wrappers with more character than their northern counterparts. Expect silky textures with notes of almond and subtle white pepper."
+    },
+    {
+        name: "Habano Wrapper",
+        profile: "Medium & Spicy",
+        notes: "Pepper, earth, leather",
+        strength: "Medium",
+        bestWith: ["Woodford Reserve", "Elijah Craig Small Batch"],
+        description: "Cuban-seed Habano wrappers bring spice and complexity to the table. These medium-bodied cigars offer leather, earth, and pepper notes that develop beautifully as you smoke."
+    },
+    {
+        name: "Nicaraguan Medium",
+        profile: "Balanced & Flavorful",
+        notes: "Coffee, cocoa, wood",
+        strength: "Medium",
+        bestWith: ["Woodford Reserve", "Knob Creek"],
+        description: "Nicaraguan tobacco is prized for its rich, full flavors. Medium-strength blends showcase coffee, cocoa, and wood notes in perfect harmony, making them incredibly food and drink friendly."
+    },
+    {
+        name: "Maduro",
+        profile: "Rich & Sweet",
+        notes: "Chocolate, espresso, molasses",
+        strength: "Medium-Full",
+        bestWith: ["Knob Creek", "Elijah Craig Small Batch"],
+        description: "Maduro wrappers are fermented longer, producing dark, oily leaves with sweet, rich flavors. Expect decadent notes of dark chocolate, espresso, and molasses throughout the smoke."
+    },
+    {
+        name: "Habano Oscuro",
+        profile: "Bold & Complex",
+        notes: "Dark chocolate, leather, earth",
+        strength: "Full",
+        bestWith: ["Elijah Craig Small Batch", "Wild Turkey 101"],
+        description: "The darkest of Habano wrappers, Oscuro leaves deliver intense flavors and strength. Full-bodied with notes of dark chocolate, leather, and earth - not for the faint of heart."
+    },
+    {
+        name: "Nicaraguan Full",
+        profile: "Powerful & Intense",
+        notes: "Black pepper, cedar, earth",
+        strength: "Full",
+        bestWith: ["Knob Creek", "Wild Turkey 101"],
+        description: "Nicaragua's volcanic soil produces some of the most powerful tobacco in the world. Full-strength blends deliver intense pepper, cedar, and earthy notes that command attention."
+    },
+    {
+        name: "Ligero-heavy blend",
+        profile: "Extra Full & Bold",
+        notes: "Espresso, dark spice, oak",
+        strength: "Full+",
+        bestWith: ["Wild Turkey 101", "Knob Creek"],
+        description: "Ligero leaves from the top of the tobacco plant pack maximum strength and flavor. These ultra-full cigars feature intense espresso, dark spice, and oak - only for experienced smokers."
+    }
+];
+
+let currentMode = 'bourbon';
+let currentPairing = null;
+
+function init() {
+    renderBourbonCards();
+    renderCigarCards();
+    setupPairingTool();
+    setupCardModals();
+}
+
+function renderBourbonCards() {
+    const grid = document.getElementById('bourbon-grid');
+    grid.innerHTML = bourbons.map(bourbon => `
+        <div class="card" data-type="bourbon" data-name="${bourbon.name}">
+            <h3>${bourbon.name}</h3>
+            <p class="profile">${bourbon.profile}</p>
+            <p class="notes">🥃 ${bourbon.notes}</p>
+            <p class="detail">Proof: ${bourbon.proof}</p>
+            <p class="description">${bourbon.description}</p>
+        </div>
+    `).join('');
+}
+
+function renderCigarCards() {
+    const grid = document.getElementById('cigar-grid');
+    grid.innerHTML = cigars.map(cigar => `
+        <div class="card" data-type="cigar" data-name="${cigar.name}">
+            <h3>${cigar.name}</h3>
+            <p class="profile">${cigar.profile}</p>
+            <p class="notes">🚬 ${cigar.notes}</p>
+            <p class="detail">Strength: ${cigar.strength}</p>
+            <p class="description">${cigar.description}</p>
+        </div>
+    `).join('');
+}
+
+function setupPairingTool() {
+    const bourbonBtn = document.getElementById('bourbon-mode');
+    const cigarBtn = document.getElementById('cigar-mode');
+    const selectLabel = document.getElementById('selection-label');
+    const itemSelect = document.getElementById('item-select');
+    const findBtn = document.getElementById('find-pairing');
+
+    bourbonBtn.addEventListener('click', () => {
+        currentMode = 'bourbon';
+        bourbonBtn.classList.add('active');
+        cigarBtn.classList.remove('active');
+        selectLabel.textContent = 'Select your bourbon:';
+        populateSelect();
+    });
+
+    cigarBtn.addEventListener('click', () => {
+        currentMode = 'cigar';
+        cigarBtn.classList.add('active');
+        bourbonBtn.classList.remove('active');
+        selectLabel.textContent = 'Select your cigar:';
+        populateSelect();
+    });
+
+    findBtn.addEventListener('click', () => {
+        const selected = itemSelect.value;
+        if (selected) {
+            findPairing(selected);
+        }
+    });
+
+    populateSelect();
+}
+
+function populateSelect() {
+    const itemSelect = document.getElementById('item-select');
+    const items = currentMode === 'bourbon' ? bourbons : cigars;
+    
+    itemSelect.innerHTML = '<option value="">-- Choose --</option>' + 
+        items.map(item => `<option value="${item.name}">${item.name} - ${item.profile}</option>`).join('');
+}
+
+function findPairing(itemName) {
+    if (currentMode === 'bourbon') {
+        const bourbon = bourbons.find(b => b.name === itemName);
+        const matches = cigars.filter(c => bourbon.bestWith.some(match => 
+            c.name.includes(match) || match.includes(c.name)
+        ));
+        currentPairing = { type: 'bourbon', item: bourbon, matches };
+    } else {
+        const cigar = cigars.find(c => c.name === itemName);
+        const matches = bourbons.filter(b => cigar.bestWith.some(match => 
+            b.name.includes(match) || match.includes(b.name)
+        ));
+        currentPairing = { type: 'cigar', item: cigar, matches };
+    }
+    
+    displayPairing();
+}
+
+function displayPairing() {
+    const resultDiv = document.getElementById('pairing-result');
+    const p = currentPairing;
+    
+    if (!p.matches.length) {
+        resultDiv.innerHTML = '<p>No matches found.</p>';
+        return;
+    }
+
+    const reasoning = p.type === 'bourbon' 
+        ? `The ${p.item.profile.toLowerCase()} character of ${p.item.name} (${p.item.proof} proof) complements the ${p.matches[0].profile.toLowerCase()} profile beautifully. The bourbon's ${p.item.notes.split(',')[0]} notes won't overpower the cigar's ${p.matches[0].notes.split(',')[0]} flavors, creating a harmonious balance.`
+        : `This ${p.item.strength.toLowerCase()} strength cigar with ${p.item.profile.toLowerCase()} characteristics pairs wonderfully with ${p.matches[0].name}'s ${p.matches[0].profile.toLowerCase()} profile. The ${p.item.notes.split(',')[0]} from the cigar enhances the ${p.matches[0].notes.split(',')[0]} in the bourbon.`;
+
+    resultDiv.innerHTML = `
+        <div class="pairing-display">
+            <div class="pairing-item">
+                <h4>${p.type === 'bourbon' ? '🥃' : '🚬'} You Have</h4>
+                <div class="name">${p.item.name}</div>
+                <div class="profile">${p.item.profile}</div>
+            </div>
+            <div class="pairing-arrow">→</div>
+            <div class="pairing-item">
+                <h4>${p.type === 'bourbon' ? '🚬' : '🥃'} Pair With</h4>
+                <div class="name">${p.matches[0].name}</div>
+                <div class="profile">${p.matches[0].profile}</div>
+            </div>
+        </div>
+        <div class="reasoning">
+            <h4>Why this pairing works:</h4>
+            <p>${reasoning}</p>
+        </div>
+        ${p.matches.length > 1 ? `
+            <div class="other-options">
+                <h4>Other great options:</h4>
+                <div class="options-grid">
+                    ${p.matches.slice(1).map(m => `
+                        <div class="option-card">
+                            <div class="name">${m.name}</div>
+                            <div class="profile">${m.profile}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        ` : ''}
+    `;
+}
+
+function setupCardModals() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const type = card.dataset.type;
+            const name = card.dataset.name;
+            const item = type === 'bourbon' 
+                ? bourbons.find(b => b.name === name)
+                : cigars.find(c => c.name === name);
+            showModal(item, type);
+        });
+    });
+}
+
+function showModal(item, type) {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>${item.name}</h2>
+            <p class="profile">${item.profile}</p>
+            <p class="notes">${type === 'bourbon' ? '🥃' : '🚬'} ${item.notes}</p>
+            <p class="detail">${type === 'bourbon' ? `Proof: ${item.proof}` : `Strength: ${item.strength}`}</p>
+            <p class="description">${item.description}</p>
+            <h4 style="margin-top: 1.5rem; color: #fde68a;">Best paired with:</h4>
+            <ul style="color: #fef3c7; margin-left: 1.5rem; margin-top: 0.5rem;">
+                ${item.bestWith.map(match => `<li>${match}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.className === 'modal-close') {
+            modal.remove();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+// ============================================
+// FILE 4: vercel.json
+// ============================================
+/*
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
+*/
+
+// ============================================
+// FILE 5: package.json
+// ============================================
+/*
+{
+  "name": "bourbon-cigar-guide",
+  "version": "1.0.0",
+  "description": "Interactive bourbon and cigar pairing guide",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build needed for static site'"
+  },
+  "keywords": ["bourbon", "cigar", "pairing"],
+  "author": "",
+  "license": "MIT"
+}
+*/
+
+// ============================================
+// DEPLOYMENT INSTRUCTIONS
+// ============================================
+/*
+1. Create a new directory: bourbon-cigar-guide/
+
+2. Create these 5 files:
+   - index.html (copy the HTML from the comments above)
+   - styles.css (copy the CSS from the comments above)
+   - script.js (this file)
+   - vercel.json (copy from comments above)
+   - package.json (copy from comments above)
+
+3. Initialize git:
+   git init
+   git add .
+   git commit -m "Initial commit"
+
+4. Deploy to Vercel:
+   Option A - Using Vercel CLI:
+   - Install Vercel CLI: npm i -g vercel
+   - Run: vercel
+   - Follow the prompts
+
+   Option B - Using Vercel Dashboard:
+   - Push to GitHub
+   - Go to vercel.com
+   - Click "Import Project"
+   - Connect your GitHub repo
+   - Deploy!
+
+5. Your site will be live at: https://your-project-name.vercel.app
+
+6. To update:
+   - Make changes to files
+   - git add .
+   - git commit -m "Update"
+   - git push
+   - Vercel auto-deploys!
+*/
